@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="booth" cx="30%" cy="20%" r="100%">
+      <stop offset="0%" stop-color="#c4362a"/>
+      <stop offset="100%" stop-color="#8a1f17"/>
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" rx="115" fill="url(#booth)"/>
+  <g>
+    <circle cx="181" cy="108" r="15" fill="#f7d98a"/>
+    <circle cx="256" cy="108" r="15" fill="#f7d98a"/>
+    <circle cx="331" cy="108" r="15" fill="#f7d98a"/>
+  </g>
+  <rect x="103" y="150" width="306" height="238" rx="34" fill="#f3e7cf"/>
+  <text x="256" y="252" font-family="'Big Shoulders Display', system-ui, sans-serif" font-weight="800" font-size="62" fill="#c4362a" text-anchor="middle" line-height="0.86">MOVIE</text>
+  <text x="256" y="318" font-family="'Big Shoulders Display', system-ui, sans-serif" font-weight="800" font-size="62" fill="#c4362a" text-anchor="middle" line-height="0.86">NIGHT</text>
+  <circle cx="393" cy="393" r="47" fill="#f3e7cf" stroke="#c4362a" stroke-width="10"/>
+</svg>

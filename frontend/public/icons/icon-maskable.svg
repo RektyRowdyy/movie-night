@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="booth" cx="30%" cy="20%" r="100%">
+      <stop offset="0%" stop-color="#c4362a"/>
+      <stop offset="100%" stop-color="#8a1f17"/>
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#booth)"/>
+  <!-- content kept within the maskable safe-zone circle (r=204.8 centered) -->
+  <rect x="140" y="176" width="232" height="176" rx="26" fill="#f3e7cf"/>
+  <text x="256" y="248" font-family="'Big Shoulders Display', system-ui, sans-serif" font-weight="800" font-size="46" fill="#c4362a" text-anchor="middle">MOVIE</text>
+  <text x="256" y="308" font-family="'Big Shoulders Display', system-ui, sans-serif" font-weight="800" font-size="46" fill="#c4362a" text-anchor="middle">NIGHT</text>
+</svg>
