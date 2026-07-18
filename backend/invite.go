@@ -12,12 +12,14 @@ func (s *server) config(w http.ResponseWriter, r *http.Request) {
 }
 
 type createInviteReq struct {
-	HostName  string    `json:"hostName"`
-	GuestName string    `json:"guestName"`
-	Note      string    `json:"note"`
-	Location  string    `json:"location"`
-	EventAt   time.Time `json:"eventAt"`
-	Movies    []Movie   `json:"movies"`
+	HostName      string    `json:"hostName"`
+	GuestName     string    `json:"guestName"`
+	Note          string    `json:"note"`
+	Location      string    `json:"location"`
+	LocationLabel string    `json:"locationLabel"`
+	Bring         string    `json:"bring"`
+	EventAt       time.Time `json:"eventAt"`
+	Movies        []Movie   `json:"movies"`
 }
 
 func (s *server) createInvite(w http.ResponseWriter, r *http.Request) {
@@ -36,15 +38,17 @@ func (s *server) createInvite(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	iv := &Invite{
-		InviteToken: token(),
-		HostToken:   token(),
-		HostName:    req.HostName,
-		GuestName:   req.GuestName,
-		Note:        req.Note,
-		Location:    req.Location,
-		EventAt:     req.EventAt,
-		ExpiresAt:   req.EventAt.Add(graceWindow()),
-		Movies:      req.Movies,
+		InviteToken:   token(),
+		HostToken:     token(),
+		HostName:      req.HostName,
+		GuestName:     req.GuestName,
+		Note:          req.Note,
+		Location:      req.Location,
+		LocationLabel: req.LocationLabel,
+		Bring:         req.Bring,
+		EventAt:       req.EventAt,
+		ExpiresAt:     req.EventAt.Add(graceWindow()),
+		Movies:        req.Movies,
 	}
 	if err := s.store.insert(r.Context(), iv); err != nil {
 		writeErr(w, http.StatusInternalServerError, "could not create invite")

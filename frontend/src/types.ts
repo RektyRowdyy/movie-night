@@ -21,6 +21,8 @@ export interface InviteBase {
   guestName: string;
   note: string;
   location: string;
+  locationLabel: string;
+  bring: string;
   eventAt: string;
   expiresAt: string;
   createdAt: string;

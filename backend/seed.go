@@ -18,9 +18,11 @@ func seed(ctx context.Context, store *Store) error {
 		Note: "Sam — I've been threatening a movie night for weeks and here it is. " +
 			"Pizza's handled. I got it to three and stalled, so the last call is yours. " +
 			"Winner gets the good couch.",
-		Location:  "https://discord.gg/movie-night-voice",
-		EventAt:   eventAt,
-		ExpiresAt: eventAt.Add(graceWindow()),
+		Location:      "https://discord.gg/movie-night-voice",
+		LocationLabel: "Toxic Comfort",
+		Bring:         "Just yourself",
+		EventAt:       eventAt,
+		ExpiresAt:     eventAt.Add(graceWindow()),
 		Movies: []Movie{
 			{
 				ID: token(), Title: "The Odyssey", Year: "2026", Runtime: "2h 58m", Genre: "Epic Adventure",

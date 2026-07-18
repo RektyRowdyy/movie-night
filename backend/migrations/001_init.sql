@@ -16,6 +16,9 @@ CREATE TABLE IF NOT EXISTS invites (
   opened_at       timestamptz
 );
 
+ALTER TABLE invites ADD COLUMN IF NOT EXISTS location_label text NOT NULL DEFAULT '';
+ALTER TABLE invites ADD COLUMN IF NOT EXISTS bring text NOT NULL DEFAULT '';
+
 CREATE TABLE IF NOT EXISTS push_subs (
   host_token text NOT NULL REFERENCES invites(host_token) ON DELETE CASCADE,
   endpoint   text NOT NULL,

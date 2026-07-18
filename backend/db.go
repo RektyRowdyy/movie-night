@@ -37,7 +37,7 @@ func openStore(ctx context.Context) (*Store, error) {
 	return &Store{pool}, nil
 }
 
-const inviteCols = `invite_token, host_token, host_name, guest_name, note, location,
+const inviteCols = `invite_token, host_token, host_name, guest_name, note, location, location_label, bring,
 	event_at, expires_at, created_at, movies, status, picked_movie_id,
 	answered_at, swaps_used, opened_at`
 
@@ -45,7 +45,7 @@ func scanInvite(row pgx.Row) (*Invite, error) {
 	var iv Invite
 	var moviesJSON []byte
 	err := row.Scan(&iv.InviteToken, &iv.HostToken, &iv.HostName, &iv.GuestName,
-		&iv.Note, &iv.Location, &iv.EventAt, &iv.ExpiresAt, &iv.CreatedAt,
+		&iv.Note, &iv.Location, &iv.LocationLabel, &iv.Bring, &iv.EventAt, &iv.ExpiresAt, &iv.CreatedAt,
 		&moviesJSON, &iv.Status, &iv.PickedMovieID, &iv.AnsweredAt,
 		&iv.SwapsUsed, &iv.OpenedAt)
 	if errors.Is(err, pgx.ErrNoRows) {
@@ -77,9 +77,9 @@ func (s *Store) insert(ctx context.Context, iv *Invite) error {
 	}
 	_, err = s.pool.Exec(ctx,
 		`INSERT INTO invites (invite_token, host_token, host_name, guest_name, note,
-		 location, event_at, expires_at, movies) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
+		 location, location_label, bring, event_at, expires_at, movies) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)`,
 		iv.InviteToken, iv.HostToken, iv.HostName, iv.GuestName, iv.Note,
-		iv.Location, iv.EventAt, iv.ExpiresAt, movies)
+		iv.Location, iv.LocationLabel, iv.Bring, iv.EventAt, iv.ExpiresAt, movies)
 	return err
 }
 

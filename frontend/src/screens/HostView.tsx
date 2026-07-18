@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { api } from "../api";
 import { formatRelative } from "../format";
 import { pushSupported, enablePush } from "../pushClient";
+import { useMediaQuery } from "../useMediaQuery";
 import type { HostInvite } from "../types";
 import { ExpiredScreen } from "./ExpiredScreen";
 
@@ -10,6 +11,7 @@ export default function HostView() {
   const { token = "" } = useParams();
   const [invite, setInvite] = useState<HostInvite | null>(null);
   const [pushState, setPushState] = useState<"idle" | "asking" | "enabled" | "declined" | "unsupported">("idle");
+  const isDesktop = useMediaQuery("(min-width: 960px)");
 
   const reload = useCallback(() => {
     api.getHost(token).then(setInvite).catch(() => {});
@@ -58,7 +60,7 @@ export default function HostView() {
   const others = invite.movies.filter((m) => m.id !== invite.pickedMovieId);
 
   return (
-    <div style={{ minHeight: "100vh", maxWidth: 480, margin: "0 auto", padding: "24px 18px 60px" }}>
+    <div style={{ minHeight: "100vh", maxWidth: isDesktop ? 640 : 480, margin: "0 auto", padding: "24px 18px 60px" }}>
       {invite.status === "waiting" ? (
         <div style={{ background: "radial-gradient(120% 60% at 50% 0,#fbf3e2,#efe1c6)", borderRadius: 20, padding: "22px 18px 18px", color: "#26170f" }}>
           <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: ".2em", color: "#a07b53" }}>HOSTING · YOU</div>
