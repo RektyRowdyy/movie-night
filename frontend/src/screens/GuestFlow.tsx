@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Sparkle, Circle, Star, Play, Check, Lock } from "lucide-react";
 import { api } from "../api";
 import { formatEventDate } from "../format";
 import { useReducedMotion } from "../useReducedMotion";
@@ -119,8 +120,8 @@ function InviteScreen({ invite, onReveal }: { invite: GuestInvite; onReveal: () 
         padding: "64px 26px 32px",
       }}
     >
-      <div style={{ textAlign: "center", fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: ".3em", color: "#b0552f" }}>
-        ✦ AN INVITE FOR ✦
+      <div style={{ textAlign: "center", fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: ".3em", color: "#b0552f", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
+        <Sparkle size={11} fill="currentColor" /> AN INVITE FOR <Sparkle size={11} fill="currentColor" />
       </div>
       <div style={{ textAlign: "center", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 44, lineHeight: 1, color: "#26170f", margin: "6px 0 2px" }}>
         {invite.guestName.toUpperCase()}
@@ -157,7 +158,7 @@ function InviteScreen({ invite, onReveal }: { invite: GuestInvite; onReveal: () 
         SEE THE THREE →
       </button>
       <div style={{ textAlign: "center", marginTop: 16, fontSize: 13.5, color: "#a07b53" }}>
-        <span style={{ color: "var(--cinema-red)" }}>●</span> {invite.hostName} is waiting to hear what you pick
+        <span style={{ color: "var(--cinema-red)", display: "inline-flex", verticalAlign: "middle" }}><Circle size={8} fill="currentColor" stroke="none" /></span> {invite.hostName} is waiting to hear what you pick
       </div>
     </div>
   );
@@ -204,7 +205,7 @@ function PickerScreen({ movies, isDesktop, onOpen }: { movies: Movie[]; isDeskto
         )}
       </div>
       <div style={{ textAlign: "center", marginTop: 22, fontSize: 12.5, color: "#a07b53" }}>
-        <span style={{ color: "var(--cinema-red)" }}>●</span> Maya's waiting — no rush, but she's watching for it
+        <span style={{ color: "var(--cinema-red)", display: "inline-flex", verticalAlign: "middle" }}><Circle size={8} fill="currentColor" stroke="none" /></span> Maya's waiting — no rush, but she's watching for it
       </div>
     </div>
   );
@@ -219,7 +220,7 @@ function MobileMovieCard({ movie: m, onOpen }: { movie: Movie; onOpen: () => voi
       <div style={{ width: 98, flex: "none", borderRadius: "14px 0 0 14px", padding: "12px 10px", display: "flex", flexDirection: "column", justifyContent: "space-between", background: m.posterBg, color: m.posterFg }}>
         <div style={{ fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: ".14em", opacity: 0.85 }}>{m.moodTag}</div>
         <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 20, lineHeight: 0.94 }}>{m.title}</div>
-        <div style={{ fontFamily: "var(--font-mono)", fontSize: 9, opacity: 0.8 }}>{m.rating} ★</div>
+        <div style={{ fontFamily: "var(--font-mono)", fontSize: 9, opacity: 0.8, display: "flex", alignItems: "center", gap: 3 }}>{m.rating} <Star size={9} fill="currentColor" /></div>
       </div>
       <div style={{ flex: 1, padding: "13px 40px 13px 15px", minWidth: 0 }}>
         <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 23, lineHeight: 1, color: "#26170f" }}>{m.title}</div>
@@ -247,7 +248,7 @@ function DesktopMovieCard({ movie: m, onOpen }: { movie: Movie; onOpen: () => vo
       <div style={{ padding: "16px 16px 14px", display: "flex", flexDirection: "column", gap: 6, background: m.posterBg, color: m.posterFg }}>
         <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: ".14em", opacity: 0.85 }}>{m.moodTag}</div>
         <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 26, lineHeight: 1 }}>{m.title}</div>
-        <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, opacity: 0.85 }}>{m.rating} ★</div>
+        <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, opacity: 0.85, display: "flex", alignItems: "center", gap: 3 }}>{m.rating} <Star size={11} fill="currentColor" /></div>
       </div>
       <div style={{ padding: "14px 16px 16px", display: "flex", flexDirection: "column", gap: 8, flex: 1 }}>
         <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "#8a7458" }}>
@@ -298,8 +299,8 @@ function DetailScreen({
           <div style={{ marginTop: isDesktop ? 0 : 20, color: movie.posterFg }}>
             <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: ".2em", opacity: 0.85 }}>{movie.moodTag}</div>
             <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: isDesktop ? 56 : 46, lineHeight: 0.9, margin: "3px 0" }}>{movie.title}</div>
-            <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, opacity: 0.9 }}>
-              {movie.year} · {movie.runtime} · {movie.genre} · {movie.rating} ★
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, opacity: 0.9, display: "flex", alignItems: "center", gap: 4 }}>
+              {movie.year} · {movie.runtime} · {movie.genre} · {movie.rating} <Star size={12} fill="currentColor" />
             </div>
           </div>
         </div>
@@ -321,7 +322,9 @@ function DetailScreen({
             aria-label="Watch the trailer, opens YouTube in a new tab"
             style={{ display: "flex", alignItems: "center", gap: 13, textDecoration: "none", border: "1.5px solid #26170f", borderRadius: 13, padding: "13px 16px", color: "#26170f", background: "#fffaf0" }}
           >
-            <span style={{ width: 36, height: 36, flex: "none", borderRadius: "50%", background: "var(--cinema-red)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14 }}>▶</span>
+            <span style={{ width: 36, height: 36, flex: "none", borderRadius: "50%", background: "var(--cinema-red)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <Play size={16} fill="currentColor" strokeWidth={0} />
+            </span>
             <span style={{ flex: 1 }}>
               <span style={{ display: "block", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 19, lineHeight: 1 }}>WATCH THE TRAILER</span>
               <span style={{ fontFamily: "var(--font-mono)", fontSize: 10.5, opacity: 0.7 }}>Opens YouTube — leaves this app ↗</span>
@@ -381,9 +384,11 @@ function PunchOverlay({ movie, reducedMotion }: { movie: Movie; reducedMotion: b
 function ConfirmScreen({ invite, onRepick }: { invite: GuestInvite; onRepick: () => void }) {
   const picked = invite.movies.find((m) => m.id === invite.pickedMovieId) ?? invite.movies[0];
   return (
-    <div className="anim-rise" style={{ minHeight: "100vh", background: "radial-gradient(120% 60% at 50% 0%,#2a1712,#170c08)", padding: "60px 24px 30px", color: "#f3e7cf" }}>
+    <div className="anim-rise" style={{ minHeight: "100vh", background: "radial-gradient(120% 60% at 50% 0%,#2a1712,#170c08)", padding: "60px 24px 30px", color: "#f3e7cf", display: "flex", flexDirection: "column", justifyContent: "center" }}>
       <div style={{ textAlign: "center" }}>
-        <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: ".28em", color: "var(--marquee-gold)" }}>✦ ALL SET ✦</div>
+        <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: ".28em", color: "var(--marquee-gold)", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
+          <Sparkle size={11} fill="currentColor" /> ALL SET <Sparkle size={11} fill="currentColor" />
+        </div>
         <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 40, lineHeight: 0.98, margin: "10px 0 6px", color: "#f7ecd6" }}>
           The good couch
           <br />
@@ -421,7 +426,9 @@ function ConfirmScreen({ invite, onRepick }: { invite: GuestInvite; onRepick: ()
         </div>
       </div>
       <div style={{ display: "flex", alignItems: "center", gap: 10, justifyContent: "center", margin: "22px 0 4px", color: "#9fd3a2", fontSize: 14 }}>
-        <span style={{ width: 22, height: 22, borderRadius: "50%", background: "#2f6b3a", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12 }}>✓</span>
+        <span style={{ width: 22, height: 22, borderRadius: "50%", background: "#2f6b3a", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>
+          <Check size={13} strokeWidth={3} />
+        </span>
         {invite.hostName} has been told
       </div>
       <div style={{ textAlign: "center", marginTop: 20 }}>
@@ -430,8 +437,8 @@ function ConfirmScreen({ invite, onRepick }: { invite: GuestInvite; onRepick: ()
             Changed your mind? One swap allowed →
           </button>
         ) : (
-          <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: ".1em", color: "#8a7458" }}>
-            🔒 LOCKED IN — YOUR PICK IS FINAL
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: ".1em", color: "#8a7458", display: "flex", alignItems: "center", justifyContent: "center", gap: 5 }}>
+            <Lock size={11} /> LOCKED IN — YOUR PICK IS FINAL
           </div>
         )}
       </div>

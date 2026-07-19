@@ -1,3 +1,4 @@
+import { X } from "lucide-react";
 import { formatEventDate } from "../format";
 import type { GuestInvite, HostInvite } from "../types";
 
@@ -27,7 +28,9 @@ export function ExpiredScreen({ invite }: { invite: GuestInvite | HostInvite }) 
         </div>
         <div style={{ position: "absolute", top: "50%", left: -6, right: -6, height: 2, background: "var(--cinema-red)", transform: "rotate(-9deg)" }} />
       </div>
-      <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: ".2em", color: "var(--cinema-red)" }}>✕ INVITE CLOSED</div>
+      <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: ".2em", color: "var(--cinema-red)", display: "inline-flex", alignItems: "center", gap: 5 }}>
+        <X size={11} strokeWidth={3} /> INVITE CLOSED
+      </div>
       <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 26, color: "#f7ecd6", margin: "8px 0 6px", lineHeight: 1 }}>
         This one's
         <br />

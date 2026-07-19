@@ -1,11 +1,21 @@
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Bell, Check, Sparkle } from "lucide-react";
 import { api } from "../api";
 import { formatRelative } from "../format";
 import { pushSupported, enablePush } from "../pushClient";
 import { useMediaQuery } from "../useMediaQuery";
 import type { HostInvite } from "../types";
 import { ExpiredScreen } from "./ExpiredScreen";
+
+function clampStyle(lines: number): React.CSSProperties {
+  if (lines === 1) {
+    // single-line ellipsis, doesn't touch `display` so it never clobbers a
+    // flex parent's centering (unlike the multi-line -webkit-box clamp below)
+    return { overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" };
+  }
+  return { overflow: "hidden", display: "-webkit-box", WebkitLineClamp: lines, WebkitBoxOrient: "vertical" };
+}
 
 export default function HostView() {
   const { token = "" } = useParams();
@@ -60,7 +70,7 @@ export default function HostView() {
   const others = invite.movies.filter((m) => m.id !== invite.pickedMovieId);
 
   return (
-    <div style={{ minHeight: "100vh", maxWidth: isDesktop ? 640 : 480, margin: "0 auto", padding: "24px 18px 60px" }}>
+    <div style={{ minHeight: "100vh", maxWidth: isDesktop ? 640 : 480, margin: "0 auto", padding: "24px 18px 60px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
       {invite.status === "waiting" ? (
         <div style={{ background: "radial-gradient(120% 60% at 50% 0,#fbf3e2,#efe1c6)", borderRadius: 20, padding: "22px 18px 18px", color: "#26170f" }}>
           <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: ".2em", color: "#a07b53" }}>HOSTING · YOU</div>
@@ -74,7 +84,7 @@ export default function HostView() {
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
             {invite.movies.map((m) => (
               <div key={m.id} style={{ display: "flex", alignItems: "center", gap: 11, background: "#fffaf0", borderRadius: 10, padding: "9px 11px", boxShadow: "0 0 0 1px rgba(38,23,15,.06)" }}>
-                <div style={{ width: 34, height: 44, flex: "none", borderRadius: 5, background: m.posterBg, color: m.posterFg, display: "flex", alignItems: "flex-end", padding: 4, fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 9, lineHeight: 0.85 }}>
+                <div style={{ width: 34, height: 44, flex: "none", borderRadius: 5, background: m.posterBg, color: m.posterFg, display: "flex", alignItems: "flex-end", padding: 4, fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 9, lineHeight: 0.85, ...clampStyle(2) }}>
                   {m.title}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
@@ -94,7 +104,9 @@ export default function HostView() {
       ) : (
         <div style={{ borderRadius: 20, overflow: "hidden" }}>
           <div style={{ padding: "22px 18px 14px", background: "radial-gradient(120% 60% at 50% 0,#2a1712,#170c08)" }}>
-            <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: ".2em", color: "var(--marquee-gold)" }}>✦ THEY PICKED ✦</div>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: ".2em", color: "var(--marquee-gold)", display: "inline-flex", alignItems: "center", gap: 6 }}>
+              <Sparkle size={11} fill="currentColor" /> THEY PICKED <Sparkle size={11} fill="currentColor" />
+            </div>
             <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 24, color: "#f7ecd6", margin: "5px 0 3px", lineHeight: 1 }}>
               {invite.guestName} chose
               <br />
@@ -107,7 +119,7 @@ export default function HostView() {
           <div style={{ padding: "14px 16px 18px", background: "#efe1c6" }}>
             {picked && (
               <div style={{ display: "flex", alignItems: "center", gap: 12, background: "#fffaf0", borderRadius: 10, padding: 11, boxShadow: "0 0 0 1.5px #c4362a" }}>
-                <div style={{ width: 40, height: 52, flex: "none", borderRadius: 6, background: picked.posterBg, color: picked.posterFg, display: "flex", alignItems: "flex-end", padding: 5, fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 11, lineHeight: 0.82 }}>
+                <div style={{ width: 40, height: 52, flex: "none", borderRadius: 6, background: picked.posterBg, color: picked.posterFg, display: "flex", alignItems: "flex-end", padding: 5, fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 11, lineHeight: 0.82, ...clampStyle(2) }}>
                   {picked.title}
                 </div>
                 <div style={{ flex: 1 }}>
@@ -116,7 +128,9 @@ export default function HostView() {
                     {picked.year} · {picked.runtime} · {picked.genre}
                   </div>
                 </div>
-                <div style={{ width: 24, height: 24, borderRadius: "50%", background: "var(--cinema-red)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13 }}>✓</div>
+                <div style={{ width: 24, height: 24, borderRadius: "50%", background: "var(--cinema-red)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>
+                  <Check size={14} strokeWidth={3} />
+                </div>
               </div>
             )}
             <div style={{ display: "flex", justifyContent: "space-between", marginTop: 12, fontFamily: "var(--font-mono)", fontSize: 10, color: "#a07b53" }}>
@@ -125,7 +139,7 @@ export default function HostView() {
             </div>
             <div style={{ display: "flex", gap: 8, marginTop: 7, opacity: 0.6 }}>
               {others.map((m) => (
-                <div key={m.id} style={{ flex: 1, height: 38, borderRadius: 7, background: m.posterBg, color: m.posterFg, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-display)", fontSize: 10 }}>
+                <div key={m.id} style={{ flex: 1, height: 38, borderRadius: 7, background: m.posterBg, color: m.posterFg, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-display)", fontSize: 10, padding: "0 4px", textAlign: "center", ...clampStyle(1) }}>
                   {m.title.toUpperCase()}
                 </div>
               ))}
@@ -157,8 +171,8 @@ function PushPrompt({
   }
   return (
     <div style={{ marginTop: 16, background: "#f3e7cf", color: "#26170f", borderRadius: 16, padding: "18px 16px" }}>
-      <div style={{ width: 46, height: 46, borderRadius: 12, background: "var(--cinema-red)", color: "#fbeede", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, margin: "0 auto 12px" }}>
-        🔔
+      <div style={{ width: 46, height: 46, borderRadius: 12, background: "var(--cinema-red)", color: "#fbeede", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px" }}>
+        <Bell size={22} />
       </div>
       <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 22, textAlign: "center", margin: "0 0 6px", lineHeight: 1.02 }}>
         Get told the second they pick?
