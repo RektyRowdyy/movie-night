@@ -6,6 +6,10 @@ export function formatEventDate(iso: string): string {
   return `${day} · ${month} ${d.getDate()} · ${time}`;
 }
 
+export function metaLine(...parts: (string | null | undefined)[]): string {
+  return parts.filter((p) => p && p.trim() !== "").join(" · ");
+}
+
 export function formatRelative(iso: string): string {
   const ms = Date.now() - new Date(iso).getTime();
   const mins = Math.round(ms / 60000);

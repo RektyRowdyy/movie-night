@@ -1,4 +1,4 @@
-import type { GuestInvite, HostInvite } from "./types";
+import type { CreateInvitePayload, GuestInvite, HostInvite } from "./types";
 
 const BASE = import.meta.env.VITE_API_BASE ?? "http://localhost:8080";
 
@@ -37,4 +37,11 @@ export const api = {
 
   getConfig: () =>
     fetch(`${BASE}/api/config`).then((r) => json<{ vapidPublicKey: string }>(r)),
+
+  createInvite: (payload: CreateInvitePayload) =>
+    fetch(`${BASE}/api/invite`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    }).then((r) => json<{ inviteToken: string; hostToken: string }>(r)),
 };

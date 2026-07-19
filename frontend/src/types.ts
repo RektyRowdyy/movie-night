@@ -44,3 +44,14 @@ export interface HostInvite extends InviteBase {
   expired: boolean;
   pushEnabled: boolean;
 }
+
+export interface CreateInvitePayload {
+  hostName: string;
+  guestName: string;
+  note: string;
+  location: string;
+  locationLabel: string;
+  bring: string;
+  eventAt: string;
+  movies: Movie[];
+}

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Bell, Check, Sparkle } from "lucide-react";
 import { api } from "../api";
-import { formatRelative } from "../format";
+import { formatRelative, metaLine } from "../format";
 import { pushSupported, enablePush } from "../pushClient";
 import { useMediaQuery } from "../useMediaQuery";
 import type { HostInvite } from "../types";
@@ -90,7 +90,7 @@ export default function HostView() {
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ fontWeight: 700, fontSize: 13.5 }}>{m.title}</div>
                   <div style={{ fontFamily: "var(--font-mono)", fontSize: 9.5, color: "#8a7458" }}>
-                    {m.year} · {m.runtime} · {m.genre}
+                    {metaLine(m.year, m.runtime, m.genre)}
                   </div>
                 </div>
                 <div style={{ width: 18, height: 18, borderRadius: "50%", border: "2px dashed #cdb488" }} />
@@ -125,7 +125,7 @@ export default function HostView() {
                 <div style={{ flex: 1 }}>
                   <div style={{ fontWeight: 700, fontSize: 15, color: "#26170f" }}>{picked.title}</div>
                   <div style={{ fontFamily: "var(--font-mono)", fontSize: 9.5, color: "#8a7458" }}>
-                    {picked.year} · {picked.runtime} · {picked.genre}
+                    {metaLine(picked.year, picked.runtime, picked.genre)}
                   </div>
                 </div>
                 <div style={{ width: 24, height: 24, borderRadius: "50%", background: "var(--cinema-red)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>
@@ -155,7 +155,7 @@ export default function HostView() {
   );
 }
 
-function PushPrompt({
+export function PushPrompt({
   state,
   onEnable,
 }: {

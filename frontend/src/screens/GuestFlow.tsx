@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Sparkle, Circle, Star, Play, Check, Lock } from "lucide-react";
 import { api } from "../api";
-import { formatEventDate } from "../format";
+import { formatEventDate, metaLine } from "../format";
 import { useReducedMotion } from "../useReducedMotion";
 import { useMediaQuery } from "../useMediaQuery";
 import type { GuestInvite, Movie } from "../types";
@@ -10,7 +10,7 @@ import { ExpiredScreen } from "./ExpiredScreen";
 
 type Screen = "loading" | "error" | "invite" | "picker" | "detail" | "punching" | "confirm";
 
-function DiscordIcon() {
+export function DiscordIcon() {
   return (
     <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style={{ flex: "none" }}>
       <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.522 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1569 2.419 0 1.3332-.946 2.4189-2.1569 2.4189Z" />
@@ -164,7 +164,7 @@ function InviteScreen({ invite, onReveal }: { invite: GuestInvite; onReveal: () 
   );
 }
 
-function Row({ label, value }: { label: string; value: React.ReactNode }) {
+export function Row({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
       <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: ".14em", color: "#8a7458" }}>{label}</span>
@@ -173,7 +173,7 @@ function Row({ label, value }: { label: string; value: React.ReactNode }) {
   );
 }
 
-function Divider() {
+export function Divider() {
   return <div style={{ height: 1, background: "repeating-linear-gradient(90deg,#cdb488 0 5px,transparent 5px 10px)" }} />;
 }
 
@@ -211,7 +211,7 @@ function PickerScreen({ movies, isDesktop, onOpen }: { movies: Movie[]; isDeskto
   );
 }
 
-function MobileMovieCard({ movie: m, onOpen }: { movie: Movie; onOpen: () => void }) {
+export function MobileMovieCard({ movie: m, onOpen }: { movie: Movie; onOpen: () => void }) {
   return (
     <button
       onClick={onOpen}
@@ -225,7 +225,7 @@ function MobileMovieCard({ movie: m, onOpen }: { movie: Movie; onOpen: () => voi
       <div style={{ flex: 1, padding: "13px 40px 13px 15px", minWidth: 0 }}>
         <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 23, lineHeight: 1, color: "#26170f" }}>{m.title}</div>
         <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "#8a7458", margin: "5px 0 8px" }}>
-          {m.year} · {m.runtime} · {m.genre}
+          {metaLine(m.year, m.runtime, m.genre)}
         </div>
         <div style={{ fontSize: 13.5, lineHeight: 1.35, color: "#4a382a", fontStyle: "italic" }}>“{m.hook}”</div>
       </div>
@@ -239,7 +239,7 @@ function MobileMovieCard({ movie: m, onOpen }: { movie: Movie; onOpen: () => voi
   );
 }
 
-function DesktopMovieCard({ movie: m, onOpen }: { movie: Movie; onOpen: () => void }) {
+export function DesktopMovieCard({ movie: m, onOpen }: { movie: Movie; onOpen: () => void }) {
   return (
     <button
       onClick={onOpen}
@@ -252,7 +252,7 @@ function DesktopMovieCard({ movie: m, onOpen }: { movie: Movie; onOpen: () => vo
       </div>
       <div style={{ padding: "14px 16px 16px", display: "flex", flexDirection: "column", gap: 8, flex: 1 }}>
         <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "#8a7458" }}>
-          {m.year} · {m.runtime} · {m.genre}
+          {metaLine(m.year, m.runtime, m.genre)}
         </div>
         <div style={{ fontSize: 13.5, lineHeight: 1.35, color: "#4a382a", fontStyle: "italic", flex: 1 }}>“{m.hook}”</div>
         <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: ".1em", color: "#b78f5c" }}>OPEN →</div>
@@ -300,7 +300,13 @@ function DetailScreen({
             <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: ".2em", opacity: 0.85 }}>{movie.moodTag}</div>
             <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: isDesktop ? 56 : 46, lineHeight: 0.9, margin: "3px 0" }}>{movie.title}</div>
             <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, opacity: 0.9, display: "flex", alignItems: "center", gap: 4 }}>
-              {movie.year} · {movie.runtime} · {movie.genre} · {movie.rating} <Star size={12} fill="currentColor" />
+              {metaLine(movie.year, movie.runtime, movie.genre)}
+              {movie.rating && (
+                <>
+                  {" "}
+                  · {movie.rating} <Star size={12} fill="currentColor" />
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -403,7 +409,7 @@ function ConfirmScreen({ invite, onRepick }: { invite: GuestInvite; onRepick: ()
           <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: ".2em", opacity: 0.85 }}>YOU'RE WATCHING</div>
           <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 36, lineHeight: 0.92, marginTop: 2 }}>{picked.title}</div>
           <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, opacity: 0.9, marginTop: 3 }}>
-            {picked.year} · {picked.runtime} · {picked.genre}
+            {metaLine(picked.year, picked.runtime, picked.genre)}
           </div>
         </div>
         <div style={{ position: "relative", height: 20, background: "#f3e7cf" }}>
